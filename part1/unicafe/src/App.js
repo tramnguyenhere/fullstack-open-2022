@@ -9,7 +9,7 @@ const StatisticLine = ({ text, value }) => {
     </tr>
   );
 };
-const Statistics = ({ all, good, neutral, bad, positive, average }) => {
+const Statistics = ({ good, neutral, bad }) => {
   if (good === 0 && bad === 0 && neutral === 0) {
     return (
       <>
@@ -60,14 +60,7 @@ const App = () => {
       <Button onClick={setToNeutral} text='neutral' />
       <Button onClick={setToBad} text='bad' />
       <Title title='statistics' />
-      <Statistics
-        all='all'
-        average='average'
-        positive='positive'
-        good={good}
-        neutral={neutral}
-        bad={bad}
-      />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
