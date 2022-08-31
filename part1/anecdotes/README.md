@@ -16,8 +16,8 @@ On your command line, navigate to root folder and install: <br />
 `$ npm install` <br />
 Then navigate to anecdotes folder: <br />
 
-`$ cd part1`
-`$ cd anecdotes`
+`$ cd part1` <br />
+`$ cd anecdotes` <br />
 
 ### Deploy the application
 

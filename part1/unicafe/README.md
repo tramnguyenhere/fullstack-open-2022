@@ -16,8 +16,8 @@ On your command line, navigate to root folder and install: <br />
 `$ npm install` <br />
 Then navigate to unicafe folder: <br />
 
-`$ cd part1`
-`$ cd courseinfo`
+`$ cd part1` <br />
+`$ cd courseinfo` <br />
 
 ### Deploy the application
 

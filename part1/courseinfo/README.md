@@ -13,13 +13,13 @@ Download and install Node.js from this link https://nodejs.org/en/download/
 On your terminal or cmd, type: <br />
 `$ git clone git@github.com:tramnguyenhere/fullstack-open-2022.git` <br />
 On your command line, navigate to root folder and install: <br />
-`$ npm install`
+`$ npm install` <br />
 Then navigate to courseinfo folder: <br />
 
-`$ cd part1`
-`$ cd courseinfo`
+`$ cd part1` <br />
+`$ cd courseinfo` <br />
 
 ### Deploy the application
 
-. Deploy the app on web-browsers:
+. Deploy the app on web-browsers: <br />
 `$ npm start`
