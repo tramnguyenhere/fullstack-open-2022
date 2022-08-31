@@ -13,8 +13,9 @@ Download and install Node.js from this link https://nodejs.org/en/download/
 On your terminal or cmd, type: git clone git@github.com:tramnguyenhere/fullstack-open-2022.git <br />
 On your command line, navigate to root folder and install: npm install
 Then navigate to Anecdotes folder: <br />
-$ cd part1
-$ cd anecdotes
+
+- `$ cd part1`
+- `$ cd anecdotes`
 
 ### Deploy the application
 
