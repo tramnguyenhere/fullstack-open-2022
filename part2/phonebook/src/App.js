@@ -1,17 +1,18 @@
 import { useState } from 'react';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
 
   const listExistingName = [];
   persons.map((person) => listExistingName.push(person.name));
-  console.log(listExistingName);
 
   const addPerson = (e) => {
     e.preventDefault();
     const personObject = {
       name: newName,
+      number: newNumber,
     };
     if (listExistingName.includes(newName)) {
       alert(`${newName} is already added to phonebook`);
@@ -19,10 +20,14 @@ const App = () => {
       setPersons(persons.concat(personObject));
     }
     setNewName('');
+    setNewNumber('');
   };
 
   const addNewName = (e) => {
     setNewName(e.target.value);
+  };
+  const addNewNumber = (e) => {
+    setNewNumber(e.target.value);
   };
 
   return (
@@ -30,8 +35,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name:
-          <input onChange={addNewName} value={newName} />
+          name: <input onChange={addNewName} value={newName} />
+        </div>
+        <div>
+          number: <input onChange={addNewNumber} value={newNumber} />
         </div>
         <div>
           <button type='submit'>add</button>
@@ -39,7 +46,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => (
-        <p key={person.name}>{person.name}</p>
+        <p key={person.name}>
+          {person.name} {person.number}
+        </p>
       ))}
     </div>
   );
