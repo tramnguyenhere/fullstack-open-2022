@@ -4,13 +4,25 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
   const [newName, setNewName] = useState('');
 
+  const listExistingName = [];
+  persons.map((person) => listExistingName.push(person.name));
+  console.log(listExistingName);
+
   const addPerson = (e) => {
     e.preventDefault();
     const personObject = {
       name: newName,
     };
-    setPersons(persons.concat(personObject));
+    if (listExistingName.includes(newName)) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      setPersons(persons.concat(personObject));
+    }
     setNewName('');
+  };
+
+  const addNewName = (e) => {
+    setNewName(e.target.value);
   };
 
   return (
@@ -19,7 +31,7 @@ const App = () => {
       <form onSubmit={addPerson}>
         <div>
           name:
-          <input onChange={(e) => setNewName(e.target.value)} value={newName} />
+          <input onChange={addNewName} value={newName} />
         </div>
         <div>
           <button type='submit'>add</button>
