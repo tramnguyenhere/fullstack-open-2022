@@ -1,20 +1,8 @@
 import React from 'react';
+import Header from './Header';
+import Content from './Content';
+import Total from './Total';
 
-const Header = ({ course }) => <h1>{course}</h1>;
-const Part = ({ part, exercises }) => (
-  <p>
-    {part} {exercises}
-  </p>
-);
-
-const Content = ({ parts }) =>
-  parts.map((part) => {
-    return <Part key={part.id} part={part.name} exercises={part.exercises} />;
-  });
-const Total = ({ parts }) => {
-  const total = parts.reduce((acc, part) => acc + part.exercises, 0);
-  return <h3>total of {total} exercises</h3>;
-};
 const Course = ({ courses }) => (
   <div>
     {courses.map((course) => (
