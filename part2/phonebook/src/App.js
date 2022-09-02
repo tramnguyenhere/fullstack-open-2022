@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -42,47 +45,20 @@ const App = () => {
     setSearchName(e.target.value);
   };
 
-  const regex = new RegExp(searchName, 'i');
-  const filteredList = [];
-
-  for (let i = 0; i < persons.length; i++) {
-    if (regex.test(persons[i].name)) {
-      filteredList.push(persons[i]);
-    }
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <p>
-        filter shown with
-        <input type='text' onChange={handleFilter} value={searchName} />
-      </p>
+      <Filter handleFilter={handleFilter} searchName={searchName} />
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input type='text' onChange={addNewName} value={newName} />
-        </div>
-        <div>
-          number:
-          <input type='number' onChange={addNewNumber} value={newNumber} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        addNewName={addNewName}
+        addNewNumber={addNewNumber}
+        newName={newName}
+        newNumber={newNumber}
+      />
       <h2>Numbers</h2>
-      {filteredList.length === 0
-        ? persons.map((person) => (
-            <p key={person.name}>
-              {person.name} {person.number}
-            </p>
-          ))
-        : filteredList.map((person) => (
-            <p key={person.name}>
-              {person.name} {person.number}
-            </p>
-          ))}
+      <Persons searchName={searchName} persons={persons} />
     </div>
   );
 };
