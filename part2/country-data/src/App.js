@@ -30,7 +30,7 @@ const App = () => {
   return (
     <>
       <Search handleSearch={handleSearch} searchTerm={searchTerm} />
-      <Content countries={countries} />
+      <Content countries={countries} setCountries={setCountries} />
     </>
   );
 };
