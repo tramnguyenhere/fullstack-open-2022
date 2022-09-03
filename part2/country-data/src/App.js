@@ -15,7 +15,6 @@ const App = () => {
     );
     setCountries(list);
   };
-  console.log(countries);
 
   useEffect(() => {
     console.log('effect');
@@ -27,8 +26,6 @@ const App = () => {
   }, []);
 
   console.log('render', allCountries.length, 'countries');
-
-  console.log(searchTerm);
 
   return (
     <>
