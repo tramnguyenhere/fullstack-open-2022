@@ -1,89 +1,143 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Content from './components/Content';
 import Filter from './components/Filter';
+import Message from './components/Message';
 import PersonForm from './components/PersonForm';
-import Persons from './components/Persons';
-import personServices from './services/persons';
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
+  const [allPersons, setAllPersons] = useState([]);
   const [newName, setNewName] = useState('');
-  const [searchName, setSearchName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [searchName, setNewFilter] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    console.log('effect');
-    personServices.getAll().then((allPersons) => {
-      console.log('promise fulfilled');
-      setPersons(allPersons);
+    personService.getAll().then((initialPersons) => {
+      setAllPersons(initialPersons);
     });
   }, []);
-  console.log('render', persons.length, 'persons');
 
   const addPerson = (e) => {
     e.preventDefault();
-    const personObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1,
-    };
-    const listExistingName = [];
-    persons.map((person) => listExistingName.push(person.name));
-    if (listExistingName.includes(newName)) {
-      alert(`${newName} is already added to phonebook`);
+    const person = allPersons.filter((person) => person.name === newName);
+    const personToAdd = person[0];
+    const updatedPerson = { ...personToAdd, number: newNumber };
+
+    if (person.length !== 0) {
+      if (
+        window.confirm(
+          `${personToAdd.name} is already added to the phonebook, replace the old number with a new one ?`
+        )
+      ) {
+        personService
+          .update(updatedPerson.id, updatedPerson)
+          .then((returnedPerson) => {
+            console.log(`${returnedPerson.name} was successfully updated`);
+            setAllPersons(
+              allPersons.map((personItem) =>
+                personItem.id !== personToAdd.id ? personItem : returnedPerson
+              )
+            );
+            setNewName('');
+            setNewNumber('');
+            setMessage(`${updatedPerson.name} was successfully updated`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            console.log(error);
+            setAllPersons(
+              allPersons.filter((person) => person.id !== updatedPerson.id)
+            );
+            setNewName('');
+            setNewNumber('');
+            setMessage(
+              `Information of ${updatedPerson.name} has already been removed from server`
+            );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          });
+      }
     } else {
-      personServices
-        .create(personObject)
+      const personToAdd = {
+        name: newName,
+        number: newNumber,
+      };
+      personService
+        .create(personToAdd)
         .then((returnedPerson) => {
-          setPersons(persons.concat(returnedPerson));
+          setAllPersons(allPersons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
+          setMessage(`Added ${newName}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
         })
-        .catch((err) => console.log('err', err));
+        .catch((error) => {
+          setMessage(`Error: ${error.response.data.error}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          console.log(error.response.data);
+        });
     }
   };
 
   const deletePerson = (id) => {
-    const removedPerson = persons.filter((person) => person.id === id);
-    const removedPersonName = removedPerson[0].name;
-    const removedPersonId = removedPerson[0].id;
-    if (window.confirm(`Delete ${removedPersonName} ?`)) {
-      personServices.remove(removedPersonId);
-      console.log(`${removedPersonName} is successfully deleted from the list`);
-      setPersons(persons.filter((person) => person.id !== removedPersonId));
+    const filteredPerson = allPersons.filter((person) => person.id === id);
+    const personName = filteredPerson[0].name;
+    const personId = filteredPerson[0].id;
+    if (window.confirm(`Delete ${personName} ?`)) {
+      personService.remove(personId);
+      console.log(`${personName} successfully deleted`);
+      setMessage(`${personName} was successfully deleted`);
+      setAllPersons(allPersons.filter((person) => person.id !== personId));
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
-  const addNewName = (e) => {
+  const handleNameChange = (e) => {
     setNewName(e.target.value);
   };
-  const addNewNumber = (e) => {
+
+  const handleNumberChange = (e) => {
     setNewNumber(e.target.value);
   };
 
-  const handleFilter = (e) => {
-    setSearchName(e.target.value);
+  const handleFilterChange = (e) => {
+    setNewFilter(e.target.value);
+    const regex = new RegExp(searchName, 'i');
+    const filteredPersons = () =>
+      allPersons.filter((person) => regex.test(person.name));
+    setPersons(filteredPersons);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter handleFilter={handleFilter} searchName={searchName} />
-      <h2>add a new</h2>
+      <Message message={message} />
+      <Filter value={searchName} onChange={handleFilterChange} />
+      <h2>Add new person</h2>
       <PersonForm
-        addPerson={addPerson}
-        addNewName={addNewName}
-        addNewNumber={addNewNumber}
+        onSubmit={addPerson}
         newName={newName}
+        handleNameChange={handleNameChange}
         newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <ul>
-        <Persons
-          searchName={searchName}
-          persons={persons}
-          deletePerson={deletePerson}
-        />
-      </ul>
+      <Content
+        persons={persons}
+        allPersons={allPersons}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };

@@ -1,0 +1,59 @@
+.message--success {
+  color: green;
+  background: lightgrey;
+  font-size: 2rem;
+  border: 3px solid green;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message--error {
+  color: red;
+  background: lightgrey;
+  font-size: 2rem;
+  border: 3px solid red;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.name__list {
+  max-width: 400px;
+  list-style: none;
+  padding: 0;
+}
+
+.name__item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.form {
+  max-width: 400px;
+}
+
+.name--add,
+.number--add {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.name--add input,
+.number--add input {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.filter {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.filter input {
+  flex: 1;
+  margin-left: 10px;
+}

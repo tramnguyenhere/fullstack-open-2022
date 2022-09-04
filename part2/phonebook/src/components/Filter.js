@@ -1,12 +1,9 @@
 import React from 'react';
 
-const Filter = ({ handleFilter, searchName }) => {
-  return (
-    <p>
-      filter shown with
-      <input type='text' onChange={handleFilter} value={searchName} />
-    </p>
-  );
-};
+const Filter = ({ value, onChange }) => (
+  <div className='filter'>
+    filter shown with <input value={value} onChange={onChange} />
+  </div>
+);
 
 export default Filter;
