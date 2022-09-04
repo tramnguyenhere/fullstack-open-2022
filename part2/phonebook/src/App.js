@@ -22,13 +22,13 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
     const person = allPersons.filter((person) => person.name === newName);
-    const personToAdd = person[0];
-    const updatedPerson = { ...personToAdd, number: newNumber };
+    const personObject = person[0];
+    const updatedPerson = { ...personObject, number: newNumber };
 
     if (person.length !== 0) {
       if (
         window.confirm(
-          `${personToAdd.name} is already added to the phonebook, replace the old number with a new one ?`
+          `${personObject.name} is already added to the phonebook, replace the old number with a new one ?`
         )
       ) {
         personService
@@ -37,7 +37,7 @@ const App = () => {
             console.log(`${returnedPerson.name} was successfully updated`);
             setAllPersons(
               allPersons.map((personItem) =>
-                personItem.id !== personToAdd.id ? personItem : returnedPerson
+                personItem.id !== personObject.id ? personItem : returnedPerson
               )
             );
             setNewName('');
@@ -63,12 +63,12 @@ const App = () => {
           });
       }
     } else {
-      const personToAdd = {
+      const personObject = {
         name: newName,
         number: newNumber,
       };
       personService
-        .create(personToAdd)
+        .create(personObject)
         .then((returnedPerson) => {
           setAllPersons(allPersons.concat(returnedPerson));
           setNewName('');
