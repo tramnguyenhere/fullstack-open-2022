@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Persons = ({ searchName, persons }) => {
+const Persons = ({ searchName, persons, deletePerson }) => {
   const regex = new RegExp(searchName, 'i');
   const filteredList = [];
 
@@ -11,14 +11,20 @@ const Persons = ({ searchName, persons }) => {
   }
   return filteredList.length === 0
     ? persons.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
+        <li key={person.id}>
+          {person.name} {person.number}{' '}
+          <button key={person.id} onClick={() => deletePerson(person.id)}>
+            delete
+          </button>
+        </li>
       ))
     : filteredList.map((person) => (
-        <p key={person.name}>
+        <li key={person.id}>
           {person.name} {person.number}
-        </p>
+          <button key={person.id} onClick={() => deletePerson(person.id)}>
+            delete
+          </button>
+        </li>
       ));
 };
 

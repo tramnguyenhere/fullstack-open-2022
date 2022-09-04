@@ -12,5 +12,10 @@ const create = (personObject) => {
   return request.then((res) => res.data);
 };
 
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((res) => res.data);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create };
+export default { getAll, create, remove };

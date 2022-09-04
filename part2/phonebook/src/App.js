@@ -31,11 +31,25 @@ const App = () => {
     if (listExistingName.includes(newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      personServices.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName('');
-        setNewNumber('');
-      });
+      personServices
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((err) => console.log('err', err));
+    }
+  };
+
+  const deletePerson = (id) => {
+    const removedPerson = persons.filter((person) => person.id === id);
+    const removedPersonName = removedPerson[0].name;
+    const removedPersonId = removedPerson[0].id;
+    if (window.confirm(`Delete ${removedPersonName} ?`)) {
+      personServices.remove(removedPersonId);
+      console.log(`${removedPersonName} is successfully deleted from the list`);
+      setPersons(persons.filter((person) => person.id !== removedPersonId));
     }
   };
 
@@ -45,8 +59,6 @@ const App = () => {
   const addNewNumber = (e) => {
     setNewNumber(e.target.value);
   };
-
-  //Handle filter searchName
 
   const handleFilter = (e) => {
     setSearchName(e.target.value);
@@ -65,7 +77,13 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons searchName={searchName} persons={persons} />
+      <ul>
+        <Persons
+          searchName={searchName}
+          persons={persons}
+          deletePerson={deletePerson}
+        />
+      </ul>
     </div>
   );
 };
