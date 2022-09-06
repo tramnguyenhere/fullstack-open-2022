@@ -1,8 +1,14 @@
 const { request } = require('express');
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
+app.use(
+  morgan(
+    ':method :url :status :res[content-length] - :response-time ms :post-data'
+  )
+);
 
 let persons = [
   {
@@ -62,12 +68,12 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-
+  const isNotUnique = persons.find((person) => person.name === body.name);
   if (!body.name) {
     return response.status(400).json({ error: 'name must be missing' });
   } else if (!body.number) {
     return response.status(400).json({ error: 'number must be missing' });
-  } else if (persons.filter((person) => person.name == body.name)) {
+  } else if (isNotUnique) {
     return response.status(400).json({ error: 'name must be unique' });
   } else {
     const person = {
@@ -79,6 +85,10 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(person);
     response.json(person);
   }
+});
+
+morgan.token('post-data', (request, response) => {
+  if (request.method == 'POST') return JSON.stringify(request.body);
 });
 
 const PORT = 3001;
