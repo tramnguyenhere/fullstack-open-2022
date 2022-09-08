@@ -1,6 +1,7 @@
 const { request } = require('express');
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
@@ -9,6 +10,8 @@ app.use(
     ':method :url :status :res[content-length] - :response-time ms :post-data'
   )
 );
+app.use(cors());
+app.use(express.static('build'));
 
 let persons = [
   {
@@ -91,6 +94,7 @@ morgan.token('post-data', (request, response) => {
   if (request.method == 'POST') return JSON.stringify(request.body);
 });
 
-const PORT = 3001;
-app.listen(PORT);
-console.log(`Server running on post ${PORT}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on post ${PORT}`);
+});
