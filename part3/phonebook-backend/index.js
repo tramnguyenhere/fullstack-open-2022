@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 require('dotenv').config();
-const Person = require('./models/person');
+const Person = require('./models/person.js');
 
 app.use(express.json());
 app.use(
@@ -39,7 +39,7 @@ app.use(express.static('build'));
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then((persons) => {
-    response.json(persons.map((person) => person.toJSON()));
+    response.json(persons);
   });
 });
 
@@ -99,7 +99,7 @@ morgan.token('post-data', (request, response) => {
   if (request.method == 'POST') return JSON.stringify(request.body);
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on post ${PORT}`);
 });
