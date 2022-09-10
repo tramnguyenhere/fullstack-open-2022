@@ -2,8 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
-const Person = require('./models/person');
 require('dotenv').config();
+const Person = require('./models/person');
 
 app.use(express.json());
 app.use(
@@ -14,31 +14,33 @@ app.use(
 app.use(cors());
 app.use(express.static('build'));
 
-let persons = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
+// let persons = [
+//   {
+//     id: 1,
+//     name: 'Arto Hellas',
+//     number: '040-123456',
+//   },
+//   {
+//     id: 2,
+//     name: 'Ada Lovelace',
+//     number: '39-44-5323523',
+//   },
+//   {
+//     id: 3,
+//     name: 'Dan Abramov',
+//     number: '12-43-234345',
+//   },
+//   {
+//     id: 4,
+//     name: 'Mary Poppendieck',
+//     number: '39-23-6423122',
+//   },
+// ];
 
 app.get('/api/persons', (request, response) => {
-  Person.find({}).then((persons) => response.json(persons));
+  Person.find({}).then((persons) => {
+    response.json(persons.map((person) => person.toJSON()));
+  });
 });
 
 app.get('/info', (request, response) => {
@@ -84,9 +86,12 @@ app.post('/api/persons', (request, response) => {
       number: body.number,
     });
 
-    person.save().then((savedPerson) => {
-      response.json(savedPerson);
-    });
+    person
+      .save()
+      .then((savedPerson) => {
+        response.json(savedPerson);
+      })
+      .catch((err) => console.log('error: ', err));
   }
 });
 
@@ -94,7 +99,7 @@ morgan.token('post-data', (request, response) => {
   if (request.method == 'POST') return JSON.stringify(request.body);
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on post ${PORT}`);
 });
