@@ -22,8 +22,8 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
     const person = allPersons.filter((person) => person.name === newName);
-    const personObject = person[0];
-    const updatedPerson = { ...personObject, number: newNumber };
+    //const personObject = person[0];
+    //const updatedPerson = { ...personObject, number: newNumber };
 
     if (person.length !== 0) {
       //   if (
