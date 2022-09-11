@@ -22,47 +22,47 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
     const person = allPersons.filter((person) => person.name === newName);
-    //const personObject = person[0];
-    //const updatedPerson = { ...personObject, number: newNumber };
+    const personObject = person[0];
+    const updatedPerson = { ...personObject, number: newNumber };
 
     if (person.length !== 0) {
-      //   if (
-      //     window.confirm(
-      //       `${personObject.name} is already added to the phonebook, replace the old number with a new one ?`
-      //     )
-      //   ) {
-      //     personService
-      //       .update(updatedPerson.id, updatedPerson)
-      //       .then((returnedPerson) => {
-      //         console.log(`${returnedPerson.name} was successfully updated`);
-      //         setAllPersons(
-      //           allPersons.map((personItem) =>
-      //             personItem.id !== personObject.id ? personItem : returnedPerson
-      //           )
-      //         );
-      //         setNewName('');
-      //         setNewNumber('');
-      //         setMessage(`${updatedPerson.name} was successfully updated`);
-      //         setTimeout(() => {
-      //           setMessage(null);
-      //         }, 5000);
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //         setAllPersons(
-      //           allPersons.filter((person) => person.id !== updatedPerson.id)
-      //         );
-      //         setNewName('');
-      //         setNewNumber('');
-      //         setMessage(
-      //           `Information of ${updatedPerson.name} has already been removed from server`
-      //         );
-      //         setTimeout(() => {
-      //           setMessage(null);
-      //         }, 5000);
-      //       });
-      //   }
-      // } else {
+      if (
+        window.confirm(
+          `${personObject.name} is already added to the phonebook, replace the old number with a new one ?`
+        )
+      ) {
+        personService
+          .update(updatedPerson.id, updatedPerson)
+          .then((returnedPerson) => {
+            console.log(`${returnedPerson.name} was successfully updated`);
+            setAllPersons(
+              allPersons.map((personItem) =>
+                personItem.id !== personObject.id ? personItem : returnedPerson
+              )
+            );
+            setNewName('');
+            setNewNumber('');
+            setMessage(`${updatedPerson.name} was successfully updated`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            console.log(error);
+            setAllPersons(
+              allPersons.filter((person) => person.id !== updatedPerson.id)
+            );
+            setNewName('');
+            setNewNumber('');
+            setMessage(
+              `Information of ${updatedPerson.name} has already been removed from server`
+            );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          });
+      }
+    } else {
       const personObject = {
         name: newName,
         number: newNumber,
