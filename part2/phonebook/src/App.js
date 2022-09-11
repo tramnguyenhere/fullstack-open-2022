@@ -34,7 +34,6 @@ const App = () => {
         personService
           .update(updatedPerson.id, updatedPerson)
           .then((returnedPerson) => {
-            console.log(`${returnedPerson.name} was successfully updated`);
             setAllPersons(
               allPersons.map((personItem) =>
                 personItem.id !== personObject.id ? personItem : returnedPerson
@@ -49,13 +48,13 @@ const App = () => {
           })
           .catch((error) => {
             console.log(error);
-            setAllPersons(
-              allPersons.filter((person) => person.id !== updatedPerson.id)
-            );
+            // setAllPersons(
+            //   allPersons.filter((person) => person.id !== updatedPerson.id)
+            // );
             setNewName('');
             setNewNumber('');
             setMessage(
-              `Information of ${updatedPerson.name} has already been removed from server`
+              `'ERROR': The update of ${updatedPerson.name} has failed due to the prior removal or invalid number`
             );
             setTimeout(() => {
               setMessage(null);
@@ -79,7 +78,8 @@ const App = () => {
           }, 3000);
         })
         .catch((error) => {
-          setMessage(`Error: ${error.response.data.error}`);
+          console.log(error.response.data.error);
+          setMessage(`'ERROR': ${error.response.data.error}`);
           setTimeout(() => {
             setMessage(null);
           }, 3000);
@@ -94,7 +94,6 @@ const App = () => {
     const personId = filteredPerson[0].id;
     if (window.confirm(`Delete ${personName} ?`)) {
       personService.remove(personId);
-      console.log(`${personName} successfully deleted`);
       setMessage(`${personName} was successfully deleted`);
       setAllPersons(allPersons.filter((person) => person.id !== personId));
       setTimeout(() => {
