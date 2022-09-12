@@ -47,12 +47,24 @@ app.get('/api/persons', (request, response, next) => {
     });
 });
 
-app.get('/info', (request, response) => {
-  response.send(`<div>
+app.get('/info', (request, response, next) => {
+  Person.find({})
+    .then((persons) => {
+      response.send(`<div>
         <p>Phonebook has info for ${persons.length} people</p>
         <p>${new Date().toString()}</p>
     </div>
  `);
+    })
+    .catch((error) => {
+      next(error);
+    });
+
+  //   response.send(`<div>
+  //         <p>Phonebook has info for ${length} people</p>
+  //         <p>${new Date().toString()}</p>
+  //     </div>
+  //  `);
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -71,7 +83,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => {
@@ -126,7 +138,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-morgan.token('post-data', (request, response) => {
+morgan.token('post-data', (request) => {
   if (request.method == 'POST') return JSON.stringify(request.body);
 });
 
