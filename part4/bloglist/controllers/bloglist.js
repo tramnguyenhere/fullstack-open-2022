@@ -24,4 +24,27 @@ bloglistRouter.post('/', async (request, response) => {
   }
 });
 
+bloglistRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id);
+  response.status(204).end();
+});
+
+bloglistRouter.put('/:id', async (request, response, next) => {
+  const body = request.body;
+  const updatedBlog = {
+    ...body,
+    likes: body.likes ? body.likes : 0,
+  };
+  try {
+    const targetUpdatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      updatedBlog,
+      { new: true }
+    );
+    response.json(targetUpdatedBlog);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = bloglistRouter;
