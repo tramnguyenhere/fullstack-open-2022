@@ -177,6 +177,24 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toEqual(usersAtStart);
   });
+  test('creation fails with a proper statuscode and message if username or password is missing', async () => {
+    const usersAtStart = await helper.usersInDb();
+    const newUser = {
+      username: '',
+      name: '',
+      password: '',
+    };
+    const result = await api
+      .post('/bloglist/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.error).toContain('username or password is missing');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
 });
 
 afterAll(() => {
