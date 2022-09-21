@@ -6,6 +6,7 @@ const app = require('../app');
 const api = supertest(app);
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -34,6 +35,16 @@ test('id as unique identifier of a blog', async () => {
 });
 
 describe('adding a blog', () => {
+  let token = null;
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash('sekret', 10);
+    const user = await new User({ username: 'root', passwordHash }).save();
+    const userToken = { username: 'root', id: user.id };
+    return (token = jwt.sign(userToken, process.env.SECRET));
+  });
+
   test('blog can be added', async () => {
     const newBlog = {
       title: 'Go To Statements Considered Harmful',
@@ -44,6 +55,7 @@ describe('adding a blog', () => {
 
     await api
       .post('/bloglist/api/blogs')
+      .set({ Authorization: `bearer ${token}` })
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
@@ -69,6 +81,7 @@ describe('adding a blog', () => {
     };
     await api
       .post('/bloglist/api/blogs')
+      .set({ Authorization: `bearer ${token}` })
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
@@ -82,7 +95,32 @@ describe('adding a blog', () => {
       author: 'Edsger W. Dijkstraa',
     };
 
-    await api.post('/bloglist/api/blogs').send(newBlog).expect(400);
+    await api
+      .post('/bloglist/api/blogs')
+      .set({ Authorization: `bearer ${token}` })
+      .send(newBlog)
+      .expect(400);
+
+    const response = await api.get('/bloglist/api/blogs');
+
+    expect(response.body).toHaveLength(helper.initialBlogs.length);
+  });
+  test('adding a blog without actual authentication is failed with status code 401', async () => {
+    const newBlog = {
+      title: 'Go To Statements Considered Harmful',
+      author: 'Edsger W. Dijkstraa',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 5,
+    };
+
+    const falsetoken = 'wrong';
+
+    await api
+      .post('/bloglist/api/blogs')
+      .set({ Authorization: `bearer ${falsetoken}` })
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/);
 
     const response = await api.get('/bloglist/api/blogs');
 
@@ -91,14 +129,44 @@ describe('adding a blog', () => {
 });
 
 describe('delete a blog', () => {
+  let token = null;
+  beforeEach(async () => {
+    token = null;
+    await User.deleteMany({});
+    await Blog.deleteMany({});
+
+    const passwordHash = await bcrypt.hash('sekret', 10);
+    const user = await new User({ username: 'root', passwordHash }).save();
+    const userToken = { username: 'root', id: user.id };
+    token = jwt.sign(userToken, process.env.SECRET);
+
+    const newBlog = {
+      title: 'Vaasa University',
+      author: 'Tram Nguyen',
+      url: 'https://www.uwasa.fi/en',
+      likes: 54,
+    };
+
+    await api
+      .post('/bloglist/api/blogs')
+      .set('Authorization', `bearer ${token}`)
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    return token;
+  });
   test('succeeds with status code 204', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToDelete = await blogsAtStart[0];
 
-    await api.delete(`/bloglist/api/blogs/${blogToDelete.id}`).expect(204);
+    await api
+      .delete(`/bloglist/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${token}`)
+      .expect(204);
 
     const blogsAtEnd = await helper.blogsInDb();
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1);
 
     const titles = blogsAtEnd.map((blog) => blog.title);
 

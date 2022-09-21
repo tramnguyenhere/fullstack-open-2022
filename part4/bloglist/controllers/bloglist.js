@@ -1,6 +1,5 @@
 const bloglistRouter = require('express').Router();
 const Blog = require('../models/blog');
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 bloglistRouter.get('/', async (request, response) => {
@@ -11,14 +10,19 @@ bloglistRouter.get('/', async (request, response) => {
   response.json(bloglist);
 });
 
+bloglistRouter.get('/:id', async (request, response) => {
+  const bloglist = await Blog.findById(request.params.id);
+  bloglist ? response.json(bloglist) : response.status(404).end();
+});
+
 bloglistRouter.post('/', async (request, response) => {
   const body = request.body;
   const token = request.token;
+  const user = request.user;
   const decodedToken = jwt.verify(token, process.env.SECRET);
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' });
   }
-  const user = await User.findById(decodedToken.id);
 
   if (!body.title && !body.url) {
     response.status(400).end();
@@ -38,9 +42,28 @@ bloglistRouter.post('/', async (request, response) => {
   }
 });
 
-bloglistRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end();
+bloglistRouter.delete('/:id', async (request, response, next) => {
+  const token = request.token;
+  const user = request.user;
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' });
+  }
+
+  const deletedBlog = await Blog.findById(request.params.id);
+
+  if (deletedBlog.user._id.toString() === user._id.toString()) {
+    try {
+      await Blog.findByIdAndRemove(request.params.id);
+      response.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return response
+      .status(401)
+      .json({ error: 'You are not authorized to delete' });
+  }
 });
 
 bloglistRouter.put('/:id', async (request, response, next) => {
