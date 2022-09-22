@@ -2,24 +2,104 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 10px;
   background: linear-gradient(to right, #f1faee, #a8dadc);
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
 h1 {
+  margin: 10px;
   text-align: left;
   color: #e63946;
 }
-h2 {
-  margin-top: 0;
+h3 {
   color: #1d3557;
 }
 p {
-  margin-bottom: 0;
   font-style: italic;
   font-weight: 400;
+}
+.blog-wrapper {
+  margin: 20px 0px 10px 10px;
+  background: rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 10px;
+  border-left: 7px solid #40618e;
+  border-radius: 4px;
+}
+
+.login-title {
+  margin: 10px;
+}
+.username,
+.password {
+  width: 250px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.username input,
+.password input {
+  width: 150px;
+  margin-left: 15px;
+  outline: unset;
+  border: 1px solid #457b9d;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.username input:focus,
+.password input:focus {
+  border-radius: 3px;
+  border: 2px solid #457b9d;
+}
+
+.login-submit {
+  width: 250px;
+  margin-left: 10px;
+  background-color: #457b9d;
+  color: #f1faee;
+
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.logged-user {
+  margin-left: 10px;
+  font-style: normal;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.logged-user button {
+  margin-left: 15px;
+  background-color: #457b9d;
+  color: #f1faee;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.like-wrapper {
+  display: flex;
+  align-items: center;
+  color: green;
+}
+
+.like-wrapper p {
+  margin-left: 5px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.create-blog {
+  margin: 10px;
 }
