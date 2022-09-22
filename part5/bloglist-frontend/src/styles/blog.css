@@ -1,0 +1,20 @@
+.blog-wrapper {
+  margin: 20px 0px 10px 10px;
+  background: rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 10px;
+  border-left: 7px solid #40618e;
+  border-radius: 4px;
+}
+
+.like-wrapper {
+  display: flex;
+  align-items: center;
+  color: green;
+}
+
+.like-wrapper p {
+  margin-left: 5px;
+  font-style: normal;
+  font-weight: 400;
+}

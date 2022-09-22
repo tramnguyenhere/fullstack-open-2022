@@ -1,0 +1,46 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(to right, #f1faee, #a8dadc);
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+h1 {
+  margin: 10px;
+  text-align: left;
+  color: #e63946;
+}
+h3 {
+  color: #1d3557;
+}
+p {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.logged-user {
+  margin-left: 10px;
+  font-style: normal;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.logged-user button {
+  margin-left: 15px;
+  background-color: #457b9d;
+  color: #f1faee;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.create-blog {
+  margin: 10px;
+}

@@ -1,9 +1,14 @@
-const Notification = ({ errorMessage }) => {
-  if (errorMessage === null) {
+import '../styles/notification.css';
+const Notification = ({ message }) => {
+  if (message === null) {
     return null;
   }
 
-  return <div className='error'>{errorMessage}</div>;
+  if (message.includes('ERROR')) {
+    return <div className='message--error'>{message}</div>;
+  } else {
+    return <div className='message--success'>{message}</div>;
+  }
 };
 
 export default Notification;
