@@ -33,6 +33,7 @@ bloglistRouter.post('/', async (request, response) => {
       url: body.url,
       likes: body.likes ? body.likes : 0,
       user: user._id,
+      date: new Date().toISOString().split('T')[0],
     });
 
     const savedBlog = await blog.save();

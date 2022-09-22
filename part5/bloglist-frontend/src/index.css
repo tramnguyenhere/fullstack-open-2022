@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 10px;
+  background: linear-gradient(to right, #f1faee, #a8dadc);
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+h1 {
+  text-align: left;
+  color: #e63946;
+}
+h2 {
+  margin-top: 0;
+  color: #1d3557;
+}
+p {
+  margin-bottom: 0;
+  font-style: italic;
+  font-weight: 400;
+}
