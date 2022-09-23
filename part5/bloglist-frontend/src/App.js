@@ -72,7 +72,7 @@ const App = () => {
         setMessage(null);
       }, 5000);
     } catch (error) {
-      setMessage(error);
+      setMessage(`ERROR! ${error.response.data.error}`);
       setTimeout(() => {
         setMessage(null);
       }, 5000);
@@ -91,11 +91,29 @@ const App = () => {
       );
       setBlogs(newBlog);
     } catch (error) {
-      setMessage(error);
+      setMessage(`ERROR! ${error.response.data.error}`);
     }
   };
 
   const sortedBloglist = blogs.sort((a, b) => b.likes - a.likes);
+
+  const deleteBlog = async (id) => {
+    try {
+      const deletedBlog = blogs.filter((blog) => blog.id === id);
+      const blogTitle = deletedBlog[0].title;
+      const blogAuthor = deletedBlog[0].author;
+      if (window.confirm(`Remove ${blogTitle} by ${blogAuthor} ?`)) {
+        await BlogService.remove(id);
+        setMessage(`${blogTitle} by ${blogAuthor} was successfully deleted`);
+        setBlogs(blogs.filter((blog) => blog.id !== id));
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      }
+    } catch (error) {
+      setMessage(`ERROR! You are not authorized to delete this post`);
+    }
+  };
 
   //---
 
@@ -131,7 +149,14 @@ const App = () => {
             </Togglable>
           </div>
           {sortedBloglist.map((blog) => {
-            return <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />;
+            return (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                deleteBlog={deleteBlog}
+                updateLikes={updateLikes}
+              />
+            );
           })}
         </div>
       )}
