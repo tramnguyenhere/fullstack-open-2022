@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import CreateBlog from './components/CreateBlog';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 import BlogService from './services/bloglist';
 import LoginService from './services/login';
+
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
@@ -27,6 +29,8 @@ const App = () => {
       BlogService.setToken(user.token);
     }
   }, []);
+
+  //Authentication section
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -53,8 +57,10 @@ const App = () => {
     BlogService.setToken(null);
     setUser(null);
   };
-  const handleBlogAdd = async (event) => {
-    event.preventDefault();
+  //---
+  //Blog events section
+  const handleBlogAdd = async () => {
+    blogFormRef.current.toggleVisibility();
     try {
       const blog = await BlogService.create({ title, author, url });
       setBlogs(blogs.concat(blog));
@@ -72,6 +78,11 @@ const App = () => {
       }, 5000);
     }
   };
+  //---
+
+  //Blog form section
+  const blogFormRef = useRef();
+  //---
 
   return (
     <div>
@@ -91,17 +102,19 @@ const App = () => {
             <p>{user.name} logged in</p>
             <button onClick={handleLogOut}>logout</button>
           </div>
-          {
-            <CreateBlog
-              handleBlogAdd={handleBlogAdd}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
-            />
-          }
+          <div>
+            <Togglable buttonLabel='new blog' ref={blogFormRef}>
+              <CreateBlog
+                handleBlogAdd={handleBlogAdd}
+                title={title}
+                setTitle={setTitle}
+                author={author}
+                setAuthor={setAuthor}
+                url={url}
+                setUrl={setUrl}
+              />
+            </Togglable>
+          </div>
           {blogs.map((blog) => {
             return <Blog key={blog.id} blog={blog} />;
           })}

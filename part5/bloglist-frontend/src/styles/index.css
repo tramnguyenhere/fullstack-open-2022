@@ -44,3 +44,12 @@ p {
 .create-blog {
   margin: 10px;
 }
+
+.toggle--button {
+  margin-left: 10px;
+  background-color: #457b9d;
+  color: #f1faee;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
