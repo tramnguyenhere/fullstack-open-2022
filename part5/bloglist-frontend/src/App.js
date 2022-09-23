@@ -62,12 +62,12 @@ const App = () => {
   const handleBlogAdd = async () => {
     blogFormRef.current.toggleVisibility();
     try {
-      const blog = await BlogService.create({ title, author, url });
-      setBlogs(blogs.concat(blog));
+      const newBlog = await BlogService.create({ title, author, url });
+      setBlogs(blogs.concat(newBlog));
       setAuthor('');
       setTitle('');
       setUrl('');
-      setMessage(`a new blog "${blog.title}" by ${blog.author} added`);
+      setMessage(`a new blog "${newBlog.title}" by ${newBlog.author} added`);
       setTimeout(() => {
         setMessage(null);
       }, 5000);
@@ -82,6 +82,18 @@ const App = () => {
 
   //Blog form section
   const blogFormRef = useRef();
+
+  const updateLikes = async (id, updateBlog) => {
+    try {
+      const updatedBlog = await BlogService.update(id, updateBlog);
+      const newBlog = blogs.map((blog) =>
+        blog.id === id ? updatedBlog : blog
+      );
+      setBlogs(newBlog);
+    } catch (error) {
+      setMessage(error);
+    }
+  };
   //---
 
   return (
@@ -116,7 +128,7 @@ const App = () => {
             </Togglable>
           </div>
           {blogs.map((blog) => {
-            return <Blog key={blog.id} blog={blog} />;
+            return <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />;
           })}
         </div>
       )}

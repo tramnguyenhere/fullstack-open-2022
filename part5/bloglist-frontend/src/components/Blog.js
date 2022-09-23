@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import '../styles/blog.css';
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateLikes }) => {
   const [blogDetailVisible, setBlogDetailVisible] = useState(false);
+
   const hideWhenVisible = { display: blogDetailVisible ? 'none' : '' };
   const showWhenVisible = { display: blogDetailVisible ? '' : 'none' };
+
+  const handleLikes = () => {
+    const updateBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: blog.user.id,
+    };
+    updateLikes(blog.id, updateBlog);
+  };
   return (
     <>
       <div style={hideWhenVisible} className='blog-wrapper'>
@@ -27,7 +39,7 @@ const Blog = ({ blog }) => {
         <span className='like-wrapper'>
           <p>likes</p>
           <p> {blog.likes}</p>
-          <button className='blog-toggle--button__like'>
+          <button className='blog-toggle--button__like' onClick={handleLikes}>
             <i className='fa-solid fa-thumbs-up'></i>
           </button>
         </span>
