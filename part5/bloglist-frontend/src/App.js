@@ -94,6 +94,9 @@ const App = () => {
       setMessage(error);
     }
   };
+
+  const sortedBloglist = blogs.sort((a, b) => b.likes - a.likes);
+
   //---
 
   return (
@@ -127,7 +130,7 @@ const App = () => {
               />
             </Togglable>
           </div>
-          {blogs.map((blog) => {
+          {sortedBloglist.map((blog) => {
             return <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />;
           })}
         </div>
