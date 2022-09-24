@@ -111,7 +111,7 @@ const App = () => {
         }, 5000);
       }
     } catch (error) {
-      setMessage(`ERROR! You are not authorized to delete this post`);
+      setMessage('ERROR! You are not authorized to delete this post');
     }
   };
 
