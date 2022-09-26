@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/blog.css';
+import Togglable from './Togglable';
 const Blog = ({ blog, updateLikes, deleteBlog }) => {
-  const [blogDetailVisible, setBlogDetailVisible] = useState(false);
-
-  const hideWhenVisible = { display: blogDetailVisible ? 'none' : '' };
-  const showWhenVisible = { display: blogDetailVisible ? '' : 'none' };
-
   const handleLikes = (event) => {
     event.preventDefault();
     const updateBlog = {
@@ -23,43 +19,30 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
   };
   return (
     <>
-      <div style={hideWhenVisible} className='blog-wrapper'>
-        <h3>
-          {blog.title}
-          <button
-            className='blog-toggle--button'
-            onClick={() => setBlogDetailVisible(true)}
-          >
-            view
-          </button>
-        </h3>
+      <div className='blog-wrapper'>
+        <p className='blog-author'>
+          Posted by {blog.author} on {blog.date.split('T')[0]}
+        </p>
+        <h3 className='blog-title'>{blog.title}</h3>
       </div>
 
-      <div style={showWhenVisible} className='blog-wrapper'>
-        <p>
-          Posted by {blog.author} on {blog.date.split('T')[0]}
-          <button
-            className='blog-toggle--button'
-            onClick={() => setBlogDetailVisible(false)}
-          >
-            hide
+      <Togglable buttonLabel='view' buttonLabelClose='hide'>
+        <div className='blog-wrapper-extend'>
+          <a className='like' href={blog.url}>
+            {blog.url}
+          </a>
+          <span className='like-wrapper'>
+            <p>likes</p>
+            <p> {blog.likes}</p>
+            <button className='blog-toggle--button__like' onClick={handleLikes}>
+              <i className='fa-solid fa-thumbs-up'></i>
+            </button>
+          </span>
+          <button className='blog-delete--button' onClick={handleDelete}>
+            delete
           </button>
-        </p>
-        <h3>{blog.title}</h3>
-        <a className='like' href={blog.url}>
-          {blog.url}
-        </a>
-        <span className='like-wrapper'>
-          <p>likes</p>
-          <p> {blog.likes}</p>
-          <button className='blog-toggle--button__like' onClick={handleLikes}>
-            <i className='fa-solid fa-thumbs-up'></i>
-          </button>
-        </span>
-        <button className='blog-delete--button' onClick={handleDelete}>
-          delete
-        </button>
-      </div>
+        </div>
+      </Togglable>
     </>
   );
 };

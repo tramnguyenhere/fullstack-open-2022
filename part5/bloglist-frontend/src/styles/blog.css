@@ -3,8 +3,12 @@
   background: rgba(0, 0, 0, 0.1);
   width: 400px;
   padding: 10px;
-  border-left: 7px solid #40618e;
-  border-radius: 4px;
+}
+.blog-wrapper-extend {
+  margin: -10px 0px 10px 10px;
+  background: rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 10px;
 }
 
 .like-wrapper {
