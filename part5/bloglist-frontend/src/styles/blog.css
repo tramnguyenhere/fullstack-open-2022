@@ -44,7 +44,7 @@
   cursor: pointer;
   background: transparent;
   border: none;
-  font-size: 1.3rem;
+  font-size: 0.8rem;
 }
 
 .blog-toggle--button__like:hover {

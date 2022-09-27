@@ -35,7 +35,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
             <p>likes</p>
             <p> {blog.likes}</p>
             <button className='blog-toggle--button__like' onClick={handleLikes}>
-              <i className='fa-solid fa-thumbs-up'></i>
+              <i className='fa-solid fa-thumbs-up'> like</i>
             </button>
           </span>
           <button className='blog-delete--button' onClick={handleDelete}>

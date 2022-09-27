@@ -1,41 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/createblog.css';
-const CreateBlog = ({
-  handleBlogAdd,
-  title,
-  setTitle,
-  author,
-  setAuthor,
-  url,
-  setUrl,
-}) => {
+const CreateBlog = ({ handleBlogAdd }) => {
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
+
+  const createBlog = (event) => {
+    event.preventDefault();
+    handleBlogAdd(newBlog.title, newBlog.author, newBlog.url);
+    setNewBlog({ title: '', author: '', url: '' });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewBlog({ ...newBlog, [name]: value });
+  };
   return (
-    <>
+    <div className='formDiv'>
       <h3 className='create-blog--title'>Create new</h3>
       <div className='create-blog'>
-        <form onSubmit={handleBlogAdd}>
+        <form onSubmit={createBlog}>
           <div className='blog-form--wrapper'>
             title:
             <input
+              name='title'
               type='text'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={newBlog.title}
+              onChange={handleInputChange}
             ></input>
           </div>
           <div className='blog-form--wrapper'>
             author:
             <input
+              name='author'
               type='text'
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              value={newBlog.author}
+              onChange={handleInputChange}
             ></input>
           </div>
           <div className='blog-form--wrapper'>
             url:
             <input
+              name='url'
               type='text'
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              value={newBlog.url}
+              onChange={handleInputChange}
             ></input>
           </div>
           <button className='create-blog--button' type='submit'>
@@ -43,7 +50,7 @@ const CreateBlog = ({
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

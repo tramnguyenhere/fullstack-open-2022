@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Blog from '../components/Blog';
 import userEvent from '@testing-library/user-event';
 
@@ -43,5 +43,20 @@ describe('render url and likes after clicking button', () => {
 
     const div = container.querySelector('.togglableContent');
     expect(div).not.toHaveStyle('display: none;');
+  });
+});
+
+describe('clicking button', () => {
+  test('clicking the like button twice calls the event handler twice', async () => {
+    const likeMockHandler = jest.fn();
+    const container = render(
+      <Blog blog={blog} updateLikes={likeMockHandler} />
+    );
+
+    const button = container.getByText('like');
+    fireEvent.click(button);
+    fireEvent.click(button);
+
+    expect(likeMockHandler.mock.calls).toHaveLength(2);
   });
 });

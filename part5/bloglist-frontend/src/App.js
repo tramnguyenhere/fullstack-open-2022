@@ -13,9 +13,6 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
 
   useEffect(() => {
     BlogService.getAll().then((blogs) => setBlogs(blogs));
@@ -59,15 +56,13 @@ const App = () => {
   };
   //---
   //Blog events section
-  const handleBlogAdd = async () => {
+  const handleBlogAdd = async (title, url, author) => {
     blogFormRef.current.toggleVisibility();
     try {
-      const newBlog = await BlogService.create({ title, author, url });
-      setBlogs(blogs.concat(newBlog));
-      setAuthor('');
-      setTitle('');
-      setUrl('');
-      setMessage(`a new blog "${newBlog.title}" by ${newBlog.author} added`);
+      const blog = await BlogService.create({ title, author, url });
+      setBlogs(blogs.concat(blog));
+
+      setMessage(`a new blog "${title}" by ${author} added`);
       setTimeout(() => {
         setMessage(null);
       }, 5000);
@@ -137,15 +132,7 @@ const App = () => {
           </div>
           <div>
             <Togglable buttonLabel='new blog' ref={blogFormRef}>
-              <CreateBlog
-                handleBlogAdd={handleBlogAdd}
-                title={title}
-                setTitle={setTitle}
-                author={author}
-                setAuthor={setAuthor}
-                url={url}
-                setUrl={setUrl}
-              />
+              <CreateBlog handleBlogAdd={handleBlogAdd} />
             </Togglable>
           </div>
           {sortedBloglist.map((blog) => {
