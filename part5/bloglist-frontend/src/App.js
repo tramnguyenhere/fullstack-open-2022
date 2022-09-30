@@ -103,7 +103,7 @@ const App = () => {
         setBlogs(blogs.filter((blog) => blog.id !== id));
         setTimeout(() => {
           setMessage(null);
-        }, 5000);
+        }, 7000);
       }
     } catch (error) {
       setMessage('ERROR! You are not authorized to delete this post');
@@ -128,7 +128,9 @@ const App = () => {
         <div>
           <div className='logged-user'>
             <p>{user.name} logged in</p>
-            <button onClick={handleLogOut}>logout</button>
+            <button id='logout' onClick={handleLogOut}>
+              logout
+            </button>
           </div>
           <div>
             <Togglable buttonLabel='new blog' ref={blogFormRef}>

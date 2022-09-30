@@ -21,6 +21,7 @@ const CreateBlog = ({ handleBlogAdd }) => {
           <div className='blog-form--wrapper'>
             title:
             <input
+              id='title'
               name='title'
               type='text'
               value={newBlog.title}
@@ -30,6 +31,7 @@ const CreateBlog = ({ handleBlogAdd }) => {
           <div className='blog-form--wrapper'>
             author:
             <input
+              id='author'
               name='author'
               type='text'
               value={newBlog.author}
@@ -39,6 +41,7 @@ const CreateBlog = ({ handleBlogAdd }) => {
           <div className='blog-form--wrapper'>
             url:
             <input
+              id='url'
               name='url'
               type='text'
               value={newBlog.url}

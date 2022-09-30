@@ -33,7 +33,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
           </a>
           <span className='like-wrapper'>
             <p>likes</p>
-            <p> {blog.likes}</p>
+            <p id='show-like'> {blog.likes}</p>
             <button className='blog-toggle--button__like' onClick={handleLikes}>
               <i className='fa-solid fa-thumbs-up'> like</i>
             </button>
