@@ -100,5 +100,30 @@ describe('Blog app', function () {
         });
       });
     });
+    it('bloglist is sorted', function () {
+      cy.findByText('new blog').click();
+      cy.get('#title').type('The title with the most likes');
+      cy.get('#url').type('cypress.com');
+      cy.get('#author').type('Tram Nguyen');
+      cy.get('.create-blog--button').click();
+      cy.findByText('view').click();
+      cy.get('.blog-toggle--button__like')
+        .click()
+        .wait(500)
+        .click()
+        .wait(500)
+        .click();
+      cy.get('#show-like').wait(500).should('contain', '3');
+      cy.findByText('new blog').click();
+      cy.get('#title').type('The title with the second most likes');
+      cy.get('#url').type('cypress.com');
+      cy.get('#author').type('Tram Nguyen');
+      cy.get('.create-blog--button').click().wait(500);
+
+      cy.get('.blog').eq(0).should('contain', 'The title with the most likes');
+      cy.get('.blog')
+        .eq(1)
+        .should('contain', 'The title with the second most likes');
+    });
   });
 });

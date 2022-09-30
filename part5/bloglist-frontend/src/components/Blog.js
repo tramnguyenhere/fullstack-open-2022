@@ -18,7 +18,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
     deleteBlog(blog.id);
   };
   return (
-    <>
+    <div className='blog'>
       <div className='blog-wrapper'>
         <p className='blog-author'>
           Posted by {blog.author} on {blog.date.split('T')[0]}
@@ -28,9 +28,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
 
       <Togglable buttonLabel='view' buttonLabelClose='hide'>
         <div className='blog-wrapper-extend'>
-          <a className='like' href={blog.url}>
-            {blog.url}
-          </a>
+          <a href={blog.url}>{blog.url}</a>
           <span className='like-wrapper'>
             <p>likes</p>
             <p id='show-like'> {blog.likes}</p>
@@ -43,7 +41,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
           </button>
         </div>
       </Togglable>
-    </>
+    </div>
   );
 };
 

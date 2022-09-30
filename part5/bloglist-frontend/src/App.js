@@ -56,7 +56,7 @@ const App = () => {
   };
   //---
   //Blog events section
-  const handleBlogAdd = async (title, url, author) => {
+  const handleBlogAdd = async (title, author, url) => {
     blogFormRef.current.toggleVisibility();
     try {
       const blog = await BlogService.create({ title, author, url });
@@ -137,16 +137,18 @@ const App = () => {
               <CreateBlog handleBlogAdd={handleBlogAdd} />
             </Togglable>
           </div>
-          {sortedBloglist.map((blog) => {
-            return (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                deleteBlog={deleteBlog}
-                updateLikes={updateLikes}
-              />
-            );
-          })}
+          <ul>
+            {sortedBloglist.map((blog) => {
+              return (
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  deleteBlog={deleteBlog}
+                  updateLikes={updateLikes}
+                />
+              );
+            })}
+          </ul>
         </div>
       )}
     </div>
