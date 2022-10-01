@@ -26,6 +26,8 @@ const reducer = (state = initialState, action) => {
       const quoteToChange = state.find((quote) => quote.id === id);
       const changedQuote = { ...quoteToChange, votes: quoteToChange.votes + 1 };
       return state.map((quote) => (quote.id !== id ? quote : changedQuote));
+    case 'NEW_QUOTE':
+      return [...state, action.data];
     default:
       return state;
   }
@@ -35,6 +37,13 @@ export const voteQuote = (id) => {
   return {
     type: 'VOTE',
     data: { id },
+  };
+};
+
+export const addQuote = (content) => {
+  return {
+    type: 'NEW_QUOTE',
+    data: asObject(content),
   };
 };
 
