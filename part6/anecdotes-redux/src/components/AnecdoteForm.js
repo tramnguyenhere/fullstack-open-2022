@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addQuote } from '../reducers/anecdoteReducer';
+import { handleNotification } from '../reducers/notificationReducer';
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const AnecdoteForm = () => {
     console.log(content);
     event.target.quote.value = '';
     dispatch(addQuote(content));
+    dispatch(handleNotification(content));
   };
   return (
     <div>
