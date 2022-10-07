@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useField } from '../hooks';
 const CreateNew = ({ addNew, setNotification }) => {
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [info, setInfo] = useState('');
-
   const navigate = useNavigate();
+  const anecdoteContent = useField('content');
+  const anecdoteAuthor = useField('author');
+  const anecdoteInfo = useField('info');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addNew({
-      content,
-      author,
-      info,
+      content: anecdoteContent.value,
+      author: anecdoteAuthor.value,
+      info: anecdoteInfo.value,
       votes: 0,
     });
-    setAuthor('');
-    setContent('');
-    setInfo('');
-    setNotification(`a new anecdote "${content}" created!`);
+    setNotification(`a new anecdote "${anecdoteContent.value}" created!`);
     navigate('/');
   };
 
@@ -30,25 +26,25 @@ const CreateNew = ({ addNew, setNotification }) => {
         <div>
           content
           <input
-            name='content'
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            name={anecdoteContent.name}
+            value={anecdoteContent.value}
+            onChange={anecdoteContent.onChange}
           />
         </div>
         <div>
           author
           <input
-            name='author'
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            name={anecdoteAuthor.name}
+            value={anecdoteAuthor.value}
+            onChange={anecdoteAuthor.onChange}
           />
         </div>
         <div>
           url for more info
           <input
-            name='info'
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
+            name={anecdoteInfo.name}
+            value={anecdoteInfo.value}
+            onChange={anecdoteInfo.onChange}
           />
         </div>
         <button>create</button>
