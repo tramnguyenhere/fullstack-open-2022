@@ -19,6 +19,12 @@ const CreateNew = ({ addNew, setNotification }) => {
     navigate('/');
   };
 
+  const reset = () => {
+    anecdoteAuthor.reset();
+    anecdoteContent.reset();
+    anecdoteInfo.reset();
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -49,6 +55,7 @@ const CreateNew = ({ addNew, setNotification }) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={reset}>reset</button>
     </div>
   );
 };
