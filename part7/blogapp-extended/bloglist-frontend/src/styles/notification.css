@@ -1,0 +1,20 @@
+.message--success {
+  color: green;
+  background: lightgrey;
+  font-size: 1.5rem;
+  border: 2px solid green;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.message--error {
+  color: red;
+  background: lightgrey;
+  font-size: 1.5rem;
+  border: 2px solid red;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

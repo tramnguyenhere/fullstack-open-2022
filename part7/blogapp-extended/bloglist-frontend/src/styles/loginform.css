@@ -1,0 +1,38 @@
+.login-title {
+  margin: 10px;
+}
+.username,
+.password {
+  width: 250px;
+  margin: 10px 0px 10px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.username input,
+.password input {
+  width: 160px;
+  margin-left: 5px;
+  outline: unset;
+  border: 1px solid #457b9d;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.username input:focus,
+.password input:focus {
+  border-radius: 3px;
+  border: 2px solid #071c2a;
+}
+
+.login-submit {
+  width: 240px;
+  margin-left: 10px;
+  background-color: #457b9d;
+  color: #f1faee;
+
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+}

@@ -1,0 +1,37 @@
+.create-blog {
+  width: 400px;
+}
+.create-blog--title {
+  margin: 10px;
+}
+
+.blog-form--wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 400px;
+}
+
+.blog-form--wrapper input {
+  width: 100%;
+  outline: unset;
+  border: 1px solid #457b9d;
+  border-radius: 3px;
+  padding: 2px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.blog-form--wrapper input:focus {
+  border-radius: 3px;
+  border: 2px solid #071c2a;
+}
+
+.create-blog--button {
+  width: 50px;
+  background-color: #457b9d;
+  color: #f1faee;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+}
