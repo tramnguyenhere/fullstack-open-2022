@@ -61,11 +61,6 @@ const App = () => {
     try {
       const blog = await BlogService.create({ title, author, url });
       setBlogs(blogs.concat(blog));
-
-      setMessage(`a new blog "${title}" by ${author} added`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
     } catch (error) {
       setMessage(`ERROR! ${error.response.data.error}`);
       setTimeout(() => {
@@ -99,11 +94,7 @@ const App = () => {
       const blogAuthor = deletedBlog[0].author;
       if (window.confirm(`Remove ${blogTitle} by ${blogAuthor} ?`)) {
         await BlogService.remove(id);
-        setMessage(`${blogTitle} by ${blogAuthor} was successfully deleted`);
         setBlogs(blogs.filter((blog) => blog.id !== id));
-        setTimeout(() => {
-          setMessage(null);
-        }, 7000);
       }
     } catch (error) {
       setMessage('ERROR! You are not authorized to delete this post');

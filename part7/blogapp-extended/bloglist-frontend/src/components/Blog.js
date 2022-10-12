@@ -1,7 +1,11 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { handleNotification } from '../reducers/notificationReducer';
 import '../styles/blog.css';
 import Togglable from './Togglable';
 const Blog = ({ blog, updateLikes, deleteBlog }) => {
+  const dispatch = useDispatch();
+
   const handleLikes = (event) => {
     event.preventDefault();
     const updateBlog = {
@@ -13,9 +17,14 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
     };
     updateLikes(blog.id, updateBlog);
   };
-  const handleDelete = (event) => {
-    event.preventDefault();
+  const handleDelete = () => {
     deleteBlog(blog.id);
+    dispatch(
+      handleNotification(
+        `${blog.title} by ${blog.author} was successfully deleted`,
+        5
+      )
+    );
   };
   return (
     <div className='blog'>
