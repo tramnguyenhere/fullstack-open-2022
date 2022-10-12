@@ -7,7 +7,7 @@ import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import BlogService from './services/bloglist';
 import LoginService from './services/login';
-import { initializeBlogs } from './reducers/blogsReducer';
+import { initializeBlogs, likeBlog } from './reducers/blogsReducer';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -79,16 +79,9 @@ const App = () => {
   //Blog form section
   const blogFormRef = useRef();
 
-  const updateLikes = async (id, updateBlog) => {
-    try {
-      const updatedBlog = await BlogService.update(id, updateBlog);
-      const newBlog = blogs.map((blog) =>
-        blog.id === id ? updatedBlog : blog
-      );
-      setBlogs(newBlog);
-    } catch (error) {
-      setMessage(`ERROR! ${error.response.data.error}`);
-    }
+  const updateLikes = (id) => {
+    const theBlog = allBlogs.find((b) => b.id === id);
+    dispatch(likeBlog(theBlog));
   };
 
   const sortedBloglist = [...allBlogs].sort((a, b) => b.likes - a.likes);

@@ -6,17 +6,6 @@ import Togglable from './Togglable';
 const Blog = ({ blog, updateLikes, deleteBlog }) => {
   const dispatch = useDispatch();
 
-  const handleLikes = (event) => {
-    event.preventDefault();
-    const updateBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-      user: blog.user.id,
-    };
-    updateLikes(blog.id, updateBlog);
-  };
   const handleDelete = () => {
     deleteBlog(blog.id);
     dispatch(
@@ -41,7 +30,10 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
           <span className='like-wrapper'>
             <p>likes</p>
             <p id='show-like'> {blog.likes}</p>
-            <button className='blog-toggle--button__like' onClick={handleLikes}>
+            <button
+              className='blog-toggle--button__like'
+              onClick={() => updateLikes(blog.id)}
+            >
               <i className='fa-solid fa-thumbs-up'> like</i>
             </button>
           </span>
