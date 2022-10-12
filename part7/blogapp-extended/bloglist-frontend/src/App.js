@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Blog from './components/Blog';
 import CreateBlog from './components/CreateBlog';
 import LoginForm from './components/LoginForm';
@@ -6,6 +7,7 @@ import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import BlogService from './services/bloglist';
 import LoginService from './services/login';
+import { initializeBlogs } from './reducers/blogsReducer';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -14,10 +16,14 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
 
-  useEffect(() => {
-    BlogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(initializeBlogs());
+  }, [dispatch]);
+
+  const allBlogs = useSelector((state) => state.blogs);
+  console.log(...allBlogs);
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
     if (loggedUserJSON) {
@@ -85,7 +91,7 @@ const App = () => {
     }
   };
 
-  const sortedBloglist = blogs.sort((a, b) => b.likes - a.likes);
+  const sortedBloglist = [...allBlogs].sort((a, b) => b.likes - a.likes);
 
   const deleteBlog = async (id) => {
     try {
