@@ -72,6 +72,7 @@ bloglistRouter.put('/:id', async (request, response, next) => {
   const updatedBlog = {
     ...body,
     likes: body.likes ? body.likes : 0,
+    user: body.user.id,
   };
   try {
     const targetUpdatedBlog = await Blog.findByIdAndUpdate(

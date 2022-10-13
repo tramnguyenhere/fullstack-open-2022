@@ -1,20 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { handleNotification } from '../reducers/notificationReducer';
 import '../styles/blog.css';
 import Togglable from './Togglable';
 const Blog = ({ blog, updateLikes, deleteBlog }) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = () => {
-    deleteBlog(blog.id);
-    dispatch(
-      handleNotification(
-        `${blog.title} by ${blog.author} was successfully deleted`,
-        5
-      )
-    );
-  };
   return (
     <div className='blog'>
       <div className='blog-wrapper'>
@@ -37,7 +24,10 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
               <i className='fa-solid fa-thumbs-up'> like</i>
             </button>
           </span>
-          <button className='blog-delete--button' onClick={handleDelete}>
+          <button
+            className='blog-delete--button'
+            onClick={() => deleteBlog(blog.id)}
+          >
             delete
           </button>
         </div>

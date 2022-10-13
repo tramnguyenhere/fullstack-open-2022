@@ -7,10 +7,15 @@ import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import BlogService from './services/bloglist';
 import LoginService from './services/login';
-import { initializeBlogs, likeBlog } from './reducers/blogsReducer';
+import { handleNotification } from './reducers/notificationReducer';
+import {
+  createBlog,
+  initializeBlogs,
+  likeBlog,
+  removeBlog,
+} from './reducers/blogsReducer';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -65,8 +70,10 @@ const App = () => {
   const handleBlogAdd = async (title, author, url) => {
     blogFormRef.current.toggleVisibility();
     try {
-      const blog = await BlogService.create({ title, author, url });
-      setBlogs(blogs.concat(blog));
+      dispatch(createBlog({ title, author, url }));
+      dispatch(
+        handleNotification(`a new blog "${title}" by ${author} added`, 5)
+      );
     } catch (error) {
       setMessage(`ERROR! ${error.response.data.error}`);
       setTimeout(() => {
@@ -84,23 +91,24 @@ const App = () => {
     dispatch(likeBlog(theBlog));
   };
 
-  const sortedBloglist = [...allBlogs].sort((a, b) => b.likes - a.likes);
-
-  const deleteBlog = async (id) => {
+  const deleteBlog = (id) => {
     try {
-      const deletedBlog = blogs.filter((blog) => blog.id === id);
-      const blogTitle = deletedBlog[0].title;
-      const blogAuthor = deletedBlog[0].author;
-      if (window.confirm(`Remove ${blogTitle} by ${blogAuthor} ?`)) {
-        await BlogService.remove(id);
-        setBlogs(blogs.filter((blog) => blog.id !== id));
+      const theBlog = allBlogs.find((b) => b.id === id);
+      if (window.confirm(`Remove ${theBlog.title} by ${theBlog.author} ?`)) {
+        dispatch(removeBlog(id));
+        dispatch(
+          handleNotification(
+            `${theBlog.title} by ${theBlog.author} was successfully deleted`,
+            5
+          )
+        );
       }
     } catch (error) {
       setMessage('ERROR! You are not authorized to delete this post');
     }
   };
 
-  //---
+  const sortedBloglist = [...allBlogs].sort((a, b) => b.likes - a.likes);
 
   return (
     <div>

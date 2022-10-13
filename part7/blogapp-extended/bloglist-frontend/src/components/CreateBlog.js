@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { handleNotification } from '../reducers/notificationReducer';
 import '../styles/createblog.css';
 const CreateBlog = ({ handleBlogAdd }) => {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
-
-  const dispatch = useDispatch();
 
   const createBlog = (event) => {
     event.preventDefault();
     handleBlogAdd(newBlog.title, newBlog.author, newBlog.url);
     setNewBlog({ title: '', author: '', url: '' });
-    dispatch(
-      handleNotification(
-        `a new blog "${newBlog.title}" by ${newBlog.author} added`,
-        5
-      )
-    );
   };
 
   const handleInputChange = (event) => {
