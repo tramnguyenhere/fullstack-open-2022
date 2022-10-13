@@ -14,21 +14,24 @@ import {
   likeBlog,
   removeBlog,
 } from './reducers/blogsReducer';
+import { initializeUsers } from './reducers/usersReducer';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  const allBlogs = useSelector((state) => state.blogs);
+  const allUsers = useSelector((state) => state.users);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, [dispatch]);
 
-  const allBlogs = useSelector((state) => state.blogs);
-  console.log(...allBlogs);
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
     if (loggedUserJSON) {
@@ -37,6 +40,8 @@ const App = () => {
       BlogService.setToken(user.token);
     }
   }, []);
+  console.log(allBlogs);
+  console.log(allUsers);
 
   //Authentication section
   const handleLogin = async (event) => {
@@ -108,6 +113,10 @@ const App = () => {
     }
   };
 
+  const margin = {
+    margin: 10,
+  };
+
   const sortedBloglist = [...allBlogs].sort((a, b) => b.likes - a.likes);
 
   return (
@@ -135,6 +144,14 @@ const App = () => {
               <CreateBlog handleBlogAdd={handleBlogAdd} />
             </Togglable>
           </div>
+          <h2 style={margin}>Users</h2>
+          {allUsers.map((user) => (
+            <div style={margin} key={user.id}>
+              <h4>
+                {user.name}: blog created {user.blogs.length}
+              </h4>
+            </div>
+          ))}
           <ul>
             {sortedBloglist.map((blog) => {
               return (
