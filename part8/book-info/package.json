@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "apollo-server": "^3.10.3",
+    "graphql": "^16.6.0"
+  },
+  "name": "book-info",
+  "version": "1.0.0",
+  "main": "library-backend.js",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon library-backend.js"
+  },
+  "author": "Tram Nguyen",
+  "license": "ISC",
+  "description": ""
+}
