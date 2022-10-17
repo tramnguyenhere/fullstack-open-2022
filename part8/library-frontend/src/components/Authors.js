@@ -13,12 +13,18 @@ const Authors = (props) => {
 
   const submit = (event) => {
     event.preventDefault();
+
     editAuthor({
       variables: { name: searchAuthor, setBornTo: parseInt(yearBorn, 10) },
     });
 
     setSearchAuthor('');
     setYearBorn('');
+  };
+
+  const handleAuthorSelect = (event) => {
+    event.preventDefault();
+    setSearchAuthor(event.target.value);
   };
 
   if (!props.show) {
@@ -53,11 +59,13 @@ const Authors = (props) => {
       <form onSubmit={submit}>
         <div>
           name
-          <input
-            type='text'
-            value={searchAuthor}
-            onChange={({ target }) => setSearchAuthor(target.value)}
-          />
+          <select onChange={handleAuthorSelect}>
+            {authors.map((author) => (
+              <option key={author.id} value={author.name}>
+                {author.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           born
