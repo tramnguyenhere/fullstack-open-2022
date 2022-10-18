@@ -7,12 +7,10 @@ const Book = require('./models/Book');
 const User = require('./models/User');
 const JWT_SECRET = 'XXX';
 
-const MONGODB_URI =
-  'mongodb+srv://noteOfTram:tram14101998@cluster0.id34ppi.mongodb.net/library?retryWrites=true&w=majority';
 console.log('connecting to', MONGODB_URI);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(env.process.MONGODB_URI)
   .then(() => {
     console.log('connected to MongoDB');
   })
