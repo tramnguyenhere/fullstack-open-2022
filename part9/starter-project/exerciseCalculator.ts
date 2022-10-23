@@ -6,14 +6,14 @@ interface ExerciseData {
 const parseExerciseArgument = (args: Array<string>): ExerciseData => {
     if (args.length < 3) throw new Error('Not enough arguments');
     let check = true;
-    for (let i = 3; i < args.length - 2; i++) {
+    for (let i = 3; i < args.length; i++) {
         if (isNaN(Number(args[i]))) {
             check = false;
         }
     }
     if (!isNaN(Number(args[2])) && check) {
         let data = [];
-        for (let i = 3; i < args.length - 2; i++) {
+        for (let i = 3; i < args.length; i++) {
             data.push(Number(args[i]))
         }
         return { 
@@ -66,9 +66,10 @@ const exerciseCalculator = (target: number, dailyExerciseData: Array<number>): R
 
 try {
     const {target, dailyExerciseData} = parseExerciseArgument(process.argv);
-    exerciseCalculator(target, dailyExerciseData);
-   console.log( exerciseCalculator(target, dailyExerciseData));
-   ;
+        exerciseCalculator(target, dailyExerciseData);
+        console.log( exerciseCalculator(target, dailyExerciseData));
+        console.log(dailyExerciseData);
+    
 } catch (error: unknown) {
     let errorMessage = 'Something bad happened.'
     if (error instanceof Error) {
