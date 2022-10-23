@@ -53,7 +53,6 @@ const exerciseCalculator = (target: number, dailyExerciseData: Array<number>): R
         rating = 3;
         ratingDescription='bravooo!'
     }
-    
     return {
         periodLength: periodLength,
         trainingDays: trainingDays,
@@ -66,8 +65,10 @@ const exerciseCalculator = (target: number, dailyExerciseData: Array<number>): R
 }
 
 try {
-    const {target, dailyExerciseData} = process.argv;
+    const {target, dailyExerciseData} = parseExerciseArgument(process.argv);
     exerciseCalculator(target, dailyExerciseData);
+   console.log( exerciseCalculator(target, dailyExerciseData));
+   ;
 } catch (error: unknown) {
     let errorMessage = 'Something bad happened.'
     if (error instanceof Error) {
