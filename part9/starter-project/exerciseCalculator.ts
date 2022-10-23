@@ -40,6 +40,7 @@ const exerciseCalculator = (target: number, dailyExerciseData: Array<number>): R
     const trainingDays = dailyExerciseData.filter(d => d > 0).length;
     const average = dailyExerciseData.reduce((sum, a) => sum + a, 0) / periodLength;
     const success = average >= target ? true : false;
+    
     let rating;
     let ratingDescription;
 
@@ -68,7 +69,7 @@ try {
     const {target, dailyExerciseData} = parseExerciseArgument(process.argv);
         exerciseCalculator(target, dailyExerciseData);
         console.log( exerciseCalculator(target, dailyExerciseData));
-        console.log(dailyExerciseData);
+        console.log(target,dailyExerciseData);
     
 } catch (error: unknown) {
     let errorMessage = 'Something bad happened.'
