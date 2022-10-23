@@ -20,21 +20,21 @@ const parseArguments = (args: Array<string>): BodyValues => {
 export const calculateBmi = (a: number, b: number) => {
     const bmi = a / (b * b);
     if (bmi < 16.0) {
-        console.log('Underweight (Severe thinness)');
+       return 'Underweight (Severe thinness)';
     } else if (bmi > 16.0 && bmi < 16.9) {
-        console.log('Underweight (Moderate thinness)');
+       return 'Underweight (Moderate thinness)';
     } else if (bmi > 17.0 && bmi < 18.4) {
-        console.log('Underweight (Mild thinness)');
+       return 'Underweight (Mild thinness)';
     } else if (bmi > 18.5 && bmi < 24.9) {
-        console.log('Normal range');
+       return 'Normal range';
     } else if (bmi > 25 && bmi < 29.9) {
-        console.log('Overweight (Pre-obese)');
+       return 'Overweight (Pre-obese)';
     } else if (bmi > 30 && bmi < 34.9) {
-        console.log('Obese (Class I)');
+       return 'Obese (Class I)';
     } else if (bmi > 35 && bmi < 39.9) {
-        console.log('Obese (Class II)');
-    } else if (bmi >= 40.0) {
-        console.log('Obese (Class III)');
+       return 'Obese (Class II)';
+    } else {
+       return 'Obese (Class III)';
     } 
 
 }
