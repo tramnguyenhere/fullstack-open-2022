@@ -3,7 +3,7 @@ interface ExerciseData {
     dailyExerciseData: Array<number>
 }
 
-const parseExerciseArgument = (args: Array<string>): ExerciseData => {
+export const parseExerciseArgument = (args: Array<string>): ExerciseData => {
     if (args.length < 3) throw new Error('Not enough arguments');
     let check = true;
     for (let i = 3; i < args.length; i++) {
