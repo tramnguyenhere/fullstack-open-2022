@@ -1,10 +1,9 @@
 import diagnoseData from '../../data/diagnoses.json';
-import patientData from '../../data/patients.json';
+import patients from '../../data/patierntEntries';
 import { v1 as uuid } from 'uuid';
 import { Diagnose, NonSensitiveDiagnose, Patient, NonSensitivePatientData, NewPatient } from '../types';
 
 const diagnoses: Diagnose[] = diagnoseData as Diagnose[];
-const patients: Patient[] = patientData as Patient[];
 
 const getAllDiagnoses = (): Diagnose[] => {
     return diagnoses;
