@@ -1,9 +1,10 @@
 import diagnoseData from '../../data/diagnoses.json';
-import patients from '../../data/patierntEntries';
+import patientData from '../../data/patientEntries';
 import { v1 as uuid } from 'uuid';
 import { Diagnose, NonSensitiveDiagnose, Patient, NonSensitivePatientData, NewPatient } from '../types';
 
-const diagnoses: Diagnose[] = diagnoseData as Diagnose[];
+const diagnoses: Diagnose[] = diagnoseData;
+const patients: Patient[] = patientData;
 
 const getAllDiagnoses = (): Diagnose[] => {
     return diagnoses;
@@ -22,10 +23,7 @@ const getAllPatient = (): NonSensitivePatientData[] => {
 };
 
 const addPatient = (entry: NewPatient): Patient => {
-    const newPatient = {
-        id: uuid(),
-        ...entry
-    };
+    const newPatient = {id: uuid(), ...entry};
     patients.push(newPatient);
     return newPatient;
 };
