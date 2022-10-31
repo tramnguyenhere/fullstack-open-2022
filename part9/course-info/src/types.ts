@@ -23,7 +23,12 @@ interface CourseSubmissionPart extends CoursePartBase {
     exerciseSubmissionLink: string;
 }
 
-export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+interface CourseSpecialPart extends CoursePartBase {
+    type: 'special';
+    requirements: Array<string>;
+}
+
+export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | CourseSpecialPart;
 
 
 

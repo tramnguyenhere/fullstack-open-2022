@@ -11,7 +11,7 @@ const Part = ({part}:{part: CoursePart}) => {
         case 'groupProject':
             return (
                 <div>
-                    <i>Number of projects: {part.groupProjectCount}</i>
+                    <i>project exercises {part.groupProjectCount}</i>
                 </div>
             );
         case 'submission':
@@ -21,9 +21,25 @@ const Part = ({part}:{part: CoursePart}) => {
                         <i>{part.description}</i>
                     </div>
                     <div>
-                       <a href={`${part.exerciseSubmissionLink}`}>{part.exerciseSubmissionLink}</a>
+                      submit to <a href={`${part.exerciseSubmissionLink}`}>{part.exerciseSubmissionLink}</a>
                     </div>
                </div>
+            );
+        case 'special':
+            return (
+                <div>
+                    <div>
+                        <i>{part.description}</i>
+                    </div>
+                    <div>
+                        <i>Required skills: </i>
+                        <ul>
+                            {part.requirements.map(item => (
+                                <li key={Math.floor(Math.random()*10000)}>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             );
         default:
             return assertNever(part);
