@@ -1,12 +1,19 @@
-import { CoursePartProps } from "../types";
+import { CoursePart } from "../types";
+import Part from "./Part";
 
-const Content = ({ parts }: { parts: CoursePartProps[] }) => {
+const Content = ({ parts }: { parts: CoursePart[] }) => {
   return (
     <div>
-      {parts.map(({ name, exerciseCount }) => (
-        <p key={name}>
-          {name} {exerciseCount}
-        </p>
+      {parts.map((part) => (
+        <div key={part.name}>
+          <div>
+          {part.name} {part.exerciseCount}
+          </div>
+          <div>
+              <Part part={part} />
+          </div>
+          <hr />
+        </div>
       ))}
     </div>
   );
