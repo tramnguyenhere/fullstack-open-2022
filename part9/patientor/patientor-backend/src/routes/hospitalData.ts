@@ -14,7 +14,7 @@ router.get('/patients', (_req, res) => {
     res.send(hospitalService.getAllPatient());
 });
 
-router.get('/pulic/patients', (_req, res) => {
+router.get('/public/patients', (_req, res) => {
     res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.send(hospitalService.getAllPublicPatient());
