@@ -1,7 +1,7 @@
 import diagnoseData from '../../data/diagnoses.json';
 import patientData from '../../data/patientEntries';
 import { v1 as uuid } from 'uuid';
-import { Diagnose, NonSensitiveDiagnose, Patient, NonSensitivePatientData, NewPatient } from '../types';
+import { Diagnose, NonSensitiveDiagnose, Patient, PublicPatient, NewPatient } from '../types';
 
 const diagnoses: Diagnose[] = diagnoseData;
 const patients: Patient[] = patientData;
@@ -16,10 +16,19 @@ const getNonSensitiveDiagnoses = (): NonSensitiveDiagnose[] => {
     }));
 };
 
-const getAllPatient = (): NonSensitivePatientData[] => {
+const getAllPublicPatient = (): PublicPatient[] => {
     return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
         id, name, dateOfBirth, gender, occupation
     }));
+};
+
+const getAllPatient = (): Patient[] => {
+    return patients;
+};
+
+const getPatientById = (id: string): Patient | undefined => {
+    const entry = patients.find(p => p.id === id);
+    return entry;
 };
 
 const addPatient = (entry: NewPatient): Patient => {
@@ -28,4 +37,4 @@ const addPatient = (entry: NewPatient): Patient => {
     return newPatient;
 };
 
-export default { getAllDiagnoses, getNonSensitiveDiagnoses, getAllPatient, addPatient };
+export default { getAllDiagnoses, getNonSensitiveDiagnoses, getAllPublicPatient, addPatient, getPatientById, getAllPatient };
