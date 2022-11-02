@@ -23,6 +23,21 @@ const PatientInfoPage: React.FC = () => {
                     </h2>
                     <p>ssh: {patient.ssn}</p>
                     <p>occupation: {patient.occupation}</p>
+                    <div>
+                        <h3>
+                            entries
+                        </h3>
+                        {patient.entries.map(entry => (
+                            <div key={entry.id}>
+                                <p>{entry.date} {entry.description}</p>
+                                <ul>
+                                    {entry.diagnosisCodes?.map(code => (
+                                        <li key={code}>{code}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             );
         } else if (patient.gender === 'male') {
@@ -32,7 +47,23 @@ const PatientInfoPage: React.FC = () => {
                         {patient.name} <MaleIcon />
                     </h2>
                     <p>ssh: {patient.ssn}</p>
+
                     <p>occupation: {patient.occupation}</p>
+                    <div>
+                        <h3>
+                            entries
+                        </h3>
+                        {patient.entries.map(entry => (
+                            <div key={entry.id}>
+                                <p>{entry.date} {entry.description}</p>
+                                <ul>
+                                    {entry.diagnosisCodes?.map(code => (
+                                        <li key={code}>{code}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             );
         } else {
@@ -43,6 +74,21 @@ const PatientInfoPage: React.FC = () => {
                     </h2>
                     <p>ssh: {patient.ssn}</p>
                     <p>occupation: {patient.occupation}</p>
+                    <div>
+                        <h3>
+                            entries
+                        </h3>
+                        {patient.entries.map(entry => (
+                            <div key={entry.id}>
+                                <p>{entry.date} {entry.description}</p>
+                                <ul>
+                                    {entry.diagnosisCodes?.map(code => (
+                                        <li key={code}>{code}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             );
         }
