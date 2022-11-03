@@ -1,100 +1,78 @@
 import React from 'react';
-import { Patient } from '../types';
+import { Patient, Entry} from '../types';
 import { useStateValue } from '../state';
 import { useParams } from 'react-router-dom';
-import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
-import TransgenderIcon from '@mui/icons-material/Transgender';
+import { Icon } from 'semantic-ui-react';
+import HealthCheck from './HealthCheck';
+import Hospital from './Hospital';
+import OccupationalHealthcare from './OccupationalHealthcare';
 
-const PatientInfoPage: React.FC = () => {
+const assertNever = (value: never): never => {
+    throw new Error(
+      `Unhandled discriminated union member: ${JSON.stringify(value)}`
+    );
+  };
+  
+  const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
+    switch (entry.type) {
+      case 'Hospital':
+        return <Hospital entry={entry} />;
+      case 'OccupationalHealthcare':
+        return <OccupationalHealthcare entry={entry} />;
+      case 'HealthCheck':
+        return <HealthCheck entry={entry} />;
+      default:
+        return assertNever(entry);
+    }
+  };
+
+
+  const PatientPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [{patients}] = useStateValue();
-   
+    const [{ patients }] = useStateValue();
+    const [{ diagnoses }] = useStateValue();
+  
     const patient = Object.values(patients).find(
-        (patient: Patient) => patient.id === id
+      (patient: Patient) => patient.id === id
     );
 
+    let iconName: 'man' | 'woman' | 'genderless';
+  
     if (patient) {
-        if (patient.gender === 'female') {
-            return (
-                <div>
-                    <h2>
-                        {patient.name} <FemaleIcon />
-                    </h2>
-                    <p>ssh: {patient.ssn}</p>
-                    <p>occupation: {patient.occupation}</p>
-                    <div>
-                        <h3>
-                            entries
-                        </h3>
-                        {patient.entries.map(entry => (
-                            <div key={entry.id}>
-                                <p>{entry.date} {entry.description}</p>
-                                <ul>
-                                    {entry.diagnosisCodes?.map(code => (
-                                        <li key={code}>{code}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        } else if (patient.gender === 'male') {
-            return (
-                <div>
-                    <h2>
-                        {patient.name} <MaleIcon />
-                    </h2>
-                    <p>ssh: {patient.ssn}</p>
-
-                    <p>occupation: {patient.occupation}</p>
-                    <div>
-                        <h3>
-                            entries
-                        </h3>
-                        {patient.entries.map(entry => (
-                            <div key={entry.id}>
-                                <p>{entry.date} {entry.description}</p>
-                                <ul>
-                                    {entry.diagnosisCodes?.map(code => (
-                                        <li key={code}>{code}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <h2>
-                        {patient.name} <TransgenderIcon />
-                    </h2>
-                    <p>ssh: {patient.ssn}</p>
-                    <p>occupation: {patient.occupation}</p>
-                    <div>
-                        <h3>
-                            entries
-                        </h3>
-                        {patient.entries.map(entry => (
-                            <div key={entry.id}>
-                                <p>{entry.date} {entry.description}</p>
-                                <ul>
-                                    {entry.diagnosisCodes?.map(code => (
-                                        <li key={code}>{code}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        }
+      switch (patient.gender) {
+        case 'male':
+          iconName = 'man';
+          break;
+        case 'female':
+          iconName = 'woman';
+          break;
+        case 'other':
+          iconName = 'genderless';
+          break;
+        default:
+          iconName = 'woman';
+      }
+  
+      return (
+        <div>
+          <h2>
+            {patient.name} <Icon name={iconName} />{' '}
+          </h2>
+          <p>ssh: {patient.ssn}</p>
+          <p>occupation: {patient.occupation}</p>
+          <h3>entries</h3>
+          {patient.entries.map((entry, i) => (
+            <div key={i}>
+              {Object.keys(diagnoses).length === 0 ? null : (
+                <EntryDetails entry={entry} />
+              )}
+            </div>
+          ))}
+        </div>
+      );
     }
-
+  
     return null;
-};
-
-export default PatientInfoPage;
+  };
+  
+  export default PatientPage;
