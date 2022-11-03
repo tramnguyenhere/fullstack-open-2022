@@ -4,11 +4,12 @@ import { v1 as uuid } from 'uuid';
 import { Diagnose, NonSensitiveDiagnose, Patient, PublicPatient, NewPatient, NonSensitivePatient } from '../types';
 
 const diagnoses: Diagnose[] = diagnoseData;
-const patients: NonSensitivePatient[] = patientData.map(
-    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+const patients: Patient[] = patientData.map(
+    ({ id, name, dateOfBirth, ssn, gender, occupation, entries }) => ({
       id,
       name,
-      dateOfBirth,
+    dateOfBirth,
+      ssn,
       gender,
       occupation,
       entries

@@ -2,16 +2,20 @@ import React from "react";
 import { Card } from 'semantic-ui-react';
 import { OccupationalHealthcareEntry } from '../types';
 import { useStateValue } from "../state";
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 
 const HealthCheck: React.FC<{ entry: OccupationalHealthcareEntry }> = ({ entry }) => {
   const [{ diagnoses }] = useStateValue(); 
   return (
-        <div>
+        <div  style={{marginTop: "30px"}}>
           <Card>
             <Card.Content>
-              {entry.date}
+              {entry.date} <MedicationLiquidIcon />
           </Card.Content>
-          <Card.Content description={entry.description} />
+          <Card.Content style={{ fontStyle: "italic" }} description={entry.description} />
+          <Card.Content>
+              diagnose by {entry.specialist}
+          </Card.Content>
           {entry.diagnosisCodes?.map(d => {
             return (
               <Card.Content key={d}>
