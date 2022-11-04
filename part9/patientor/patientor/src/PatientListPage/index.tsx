@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Box, Table, Button, TableHead, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
+import { PatientFormValues } from "../types";
 import AddPatientModal from "../AddPatientModal";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";

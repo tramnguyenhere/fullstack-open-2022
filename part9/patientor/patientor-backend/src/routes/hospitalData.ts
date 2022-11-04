@@ -33,7 +33,7 @@ router.get('/patients/:id', (req, res) => {
 router.post('/patients', (req, res) => {
     try {
         res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-
+        res.setHeader("Access-Control-Allow-Origin", "*");
         const newPatient = toNewPatient(req.body);
         const addedPatient = hospitalService.addPatient(newPatient);
         res.json(addedPatient);

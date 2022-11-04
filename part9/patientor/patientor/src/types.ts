@@ -68,6 +68,13 @@ export interface Patient {
   entries: Entry[];
 }
 
+export type PatientFormValues = Omit<Patient, "id" | "entries">;
+
+export type GenderOption = {
+  value: Gender;
+  label: string;
+};
+
 // Define special omit for unions
 type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
 // Define Entry without the 'id' property
